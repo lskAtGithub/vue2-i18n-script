@@ -1,24 +1,8 @@
 # vue2-i18n-script
 
-## Project setup
+基于 vue2 的国际化项目，自动生成其他语言脚本， 安装依赖后通过
 ```
-npm install
+npm run lang
 ```
+交互命令生成对应的语言脚本， i18n 动态引入语言， 个人觉得这是 i18n 比较好的方案
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
-
-### Compiles and minifies for production
-```
-npm run build
-```
-
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
