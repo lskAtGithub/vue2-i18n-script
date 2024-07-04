@@ -1,58 +1,116 @@
 <template>
   <div class="hello">
-    <h1>{{ msg }}</h1>
-    <p>
-      For a guide and recipes on how to configure / customize this project,<br>
-      check out the
-      <a href="https://cli.vuejs.org" target="_blank" rel="noopener">vue-cli documentation</a>.
-    </p>
-    <h3>Installed CLI Plugins</h3>
-    <ul>
-      <li><a href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-babel" target="_blank" rel="noopener">babel</a></li>
-      <li><a href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-eslint" target="_blank" rel="noopener">eslint</a></li>
-    </ul>
-    <h3>Essential Links</h3>
-    <ul>
-      <li><a href="https://vuejs.org" target="_blank" rel="noopener">Core Docs</a></li>
-      <li><a href="https://forum.vuejs.org" target="_blank" rel="noopener">Forum</a></li>
-      <li><a href="https://chat.vuejs.org" target="_blank" rel="noopener">Community Chat</a></li>
-      <li><a href="https://twitter.com/vuejs" target="_blank" rel="noopener">Twitter</a></li>
-      <li><a href="https://news.vuejs.org" target="_blank" rel="noopener">News</a></li>
-    </ul>
-    <h3>Ecosystem</h3>
-    <ul>
-      <li><a href="https://router.vuejs.org" target="_blank" rel="noopener">vue-router</a></li>
-      <li><a href="https://vuex.vuejs.org" target="_blank" rel="noopener">vuex</a></li>
-      <li><a href="https://github.com/vuejs/vue-devtools#vue-devtools" target="_blank" rel="noopener">vue-devtools</a></li>
-      <li><a href="https://vue-loader.vuejs.org" target="_blank" rel="noopener">vue-loader</a></li>
-      <li><a href="https://github.com/vuejs/awesome-vue" target="_blank" rel="noopener">awesome-vue</a></li>
-    </ul>
+    <div>{{ $t('home_page') }}</div>
+    <div class="select-box">
+      <input
+        type="text"
+        v-model="lang"
+        readonly
+        @focus="isOpen = true"
+        @blur="handleBlur"
+      />
+      <div class="options" :class="{ open: isOpen }">
+        <p
+          v-for="item in options"
+          :key="item"
+          @click="lang = item"
+          class="option"
+        >
+          {{ item }}
+        </p>
+      </div>
+    </div>
+    <button class="button" @click="handleClick">{{ $t('toggle') }}</button>
   </div>
 </template>
 
 <script>
 export default {
   name: 'HelloWorld',
-  props: {
-    msg: String
+  data() {
+    return {
+      lang: 'en',
+      isOpen: false,
+      options: []
+    }
+  },
+  mounted() {
+    this.options = require
+      .context('../i18n/languages', true, /\.js$/)
+      .keys()
+      .map((key) => key.replace(/\.\/|\.js/g, ''))
+  },
+  methods: {
+    handleClick() {
+      this.$i18n.locale = this.lang
+    },
+    handleBlur() {
+      setTimeout(() => {
+        this.isOpen = false
+      }, 100)
+    }
   }
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-h3 {
-  margin: 40px 0 0;
+input {
+  padding: 8px 12px;
+  margin: 12px;
+  border: none;
+  border: 1px solid #c3c3c3;
+  border-radius: 5px;
+  outline: none;
 }
-ul {
-  list-style-type: none;
-  padding: 0;
+button {
+  padding: 0 20px;
+  height: 40px;
+  line-height: 40px;
+  border-radius: 5px;
+  cursor: pointer;
+  color: #fff;
+  background-color: #658e81;
+  border: none;
+  transition: 200ms;
+  box-shadow: 0 5px 0 0 #4a7366;
 }
-li {
-  display: inline-block;
-  margin: 0 10px;
+
+button:active {
+  transform: translateY(3px);
+  box-shadow: 0 2px 0 0 #4a7366;
 }
-a {
-  color: #42b983;
+.hello {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  justify-content: center;
+}
+.select-box {
+  position: relative;
+  width: fit-content;
+}
+.options {
+  width: 100%;
+  transform-origin: top;
+  transform: scaleY(0);
+  position: absolute;
+  z-index: 1;
+  background-color: #fff;
+  left: 0;
+  top: 100%;
+  box-shadow: 0 0 5px #ccc;
+  transition: 100ms;
+  border-radius: 5px;
+}
+.options.open {
+  transform: scaleY(1);
+}
+.option {
+  padding: 12px;
+  margin: 0;
+  cursor: pointer;
+}
+.option:hover {
+  background-color: #f9f9f9;
 }
 </style>
