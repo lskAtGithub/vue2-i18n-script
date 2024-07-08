@@ -5,6 +5,11 @@ function removeComments(str) {
   return str.replace(/\/\/.*$/gm, '').replace(/\/\*[\s\S]*?\*\//g, '')
 }
 
+/**
+ * @param {string} originPath - 文件的完整路径
+ * @returns {Promise} 当 Promise 被 resolve 时，返回解析后的 JSON 对象；当 Promise 被 reject 时，返回错误信息
+ * @description 读取指定文件路径的内容，对其进行格式化以匹配 JSON 对象的结构，并将其解析为 JSON 对象
+ * */
 async function getFileContentFormatObject(originPath) {
   return new Promise((resolve, reject) => {
     fs.readFile(originPath, 'utf8', (err, data) => {

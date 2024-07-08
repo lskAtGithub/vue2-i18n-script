@@ -62,8 +62,8 @@ async function addNewLanguageFile(noTip = false) {
     }
   ]).then(async (res) => {
     if (res.path) zhFilePath = path.join(__dirname, res.path)
-    getFileContentFormatObject(zhFilePath, code).then((zhData) => {
-      baidu(zhData, options[0].name)
+    getFileContentFormatObject(zhFilePath).then((zhData) => {
+      baidu(zhData, code)
     })
   })
 }

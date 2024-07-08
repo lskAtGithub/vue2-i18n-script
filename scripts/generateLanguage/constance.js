@@ -1,7 +1,8 @@
 const path = require('path')
 
-const ZH_FILE_PATH = path.join(__dirname, '../../src/i18n/languages/zh.js')
+const LANGUAGE_DIR = path.join(__dirname, '../../src/i18n/languages')
 const OUTPUT_DIR = path.join(__dirname, '../../src/i18n/languages/')
+const ZH_FILE_PATH = path.join(__dirname, '../../src/i18n/languages/zh.js')
 
 const OPERATION_LIST = [
   { name: '根据中文文件新增语言文件', value: '1' },
@@ -226,5 +227,6 @@ module.exports = {
   BAIDU_ERROR_INFO,
   LANGUAGE_MAP,
   ZH_FILE_PATH,
-  OUTPUT_DIR
+  OUTPUT_DIR,
+  LANGUAGE_DIR
 }

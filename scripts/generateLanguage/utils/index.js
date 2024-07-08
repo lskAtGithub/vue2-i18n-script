@@ -8,7 +8,7 @@ const fs = require('fs')
  */
 function createLangFile(filePath, content) {
   if (fs.existsSync(filePath)) {
-    console.log(`文件已存在: ${filePath}`)
+    throw new Error(`文件已存在: ${filePath}`)
   } else {
     // 创建文件并写入内容
     fs.writeFileSync(filePath, content, 'utf8')
@@ -37,4 +37,20 @@ function objectHasValue(value, obj) {
   return result
 }
 
-module.exports = { createLangFile, objectHasValue }
+function deepSyncObj({ origin, target, getValue }) {
+  let queueList = []
+  const result = {}
+
+  const _deepSyncObjFunc = (origin, target) => {
+    // 仅处理对象
+  }
+
+  return new Promise((resolve) => {
+    _deepSyncObjFunc(origin, target)
+    Promise.all(queueList).then(() => {
+      resolve(result)
+    })
+  })
+}
+
+module.exports = { createLangFile, objectHasValue, deepSyncObj }

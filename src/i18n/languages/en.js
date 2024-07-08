@@ -1,7 +1,6 @@
 const en_local = {
   home_page: 'Portal homepage',
-  login: 'Sign in',
-  welcome_to: 'welcome'
+  login: 'Sign in'
 }
 
 export default en_local
