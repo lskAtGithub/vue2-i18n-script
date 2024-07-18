@@ -1,4 +1,7 @@
 const fs = require('fs')
+const crypto = require('crypto')
+const axios = require('axios')
+const { BAIDU_API_URL, BAIDU_SECRET_kEY, BAIDU_APP_ID } = require('../config')
 
 /**
  *
@@ -37,20 +40,48 @@ function objectHasValue(value, obj) {
   return result
 }
 
-function deepSyncObj({ origin, target, getValue }) {
-  let queueList = []
-  const result = {}
-
-  const _deepSyncObjFunc = (origin, target) => {
-    // 仅处理对象
+/**
+ * @description  返回翻译的值
+ */
+async function getValue(value, currentTo) {
+  const salt = new Date().getTime()
+  const sign = crypto
+    .createHash('md5')
+    .update(BAIDU_APP_ID + value + salt + BAIDU_SECRET_kEY)
+    .digest('hex')
+  const params = {
+    q: value,
+    from: 'zh',
+    appid: BAIDU_APP_ID,
+    to: currentTo,
+    salt,
+    sign
   }
+  return axios.get(BAIDU_API_URL, { params })
+}
 
-  return new Promise((resolve) => {
-    _deepSyncObjFunc(origin, target)
-    Promise.all(queueList).then(() => {
-      resolve(result)
-    })
-  })
+async function deepSyncObj({ origin, target, currentTo }) {
+  const result = { ...target }
+  const keys = Object.keys(origin)
+  for (const key of keys) {
+    if (
+      typeof origin[key] === 'object' &&
+      origin[key] !== null &&
+      origin[key] !== undefined
+    ) {
+      result[key] = await deepSyncObj({
+        origin: origin[key],
+        target: target[key] || {},
+        currentTo
+      })
+    } else {
+      if (target[key] === undefined) {
+        const res = await getValue(origin[key], currentTo)
+        result[key] = res.data.trans_result[0].dst
+      }
+    }
+  }
+  return result
 }
 
 module.exports = { createLangFile, objectHasValue, deepSyncObj }

@@ -1,12 +1,19 @@
 const zh_local = {
   home_page: '门户首页',
-  login: '登录',
-  welcome_to: '欢迎',
-  toggle: '切换语言',
   user: {
-    name: 'admin',
+    name: '小明',
     skill: {
-      js: '好'
+      js: '好',
+      ts: '很好'
+    }
+  },
+  test: {
+    test1: {
+      test2: {
+        test3: {
+          test4: '测试4'
+        }
+      }
     }
   }
 }

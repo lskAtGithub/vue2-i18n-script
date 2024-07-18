@@ -1,3 +1,5 @@
+const chalk = require('chalk')
+const Inquirer = require('inquirer')
 const getFileContentFormatObject = require('../utils/getFileContentFormatObject')
 const { LANGUAGE_MAP, ZH_FILE_PATH } = require('../constance')
 const { objectHasValue } = require('../utils/index.js')
@@ -58,7 +60,11 @@ async function addNewLanguageFile(noTip = false) {
     {
       type: 'input',
       name: 'path',
-      message: `默认路径为：${zhFilePath}，不需更改请直接回车，如需更改请相对于${__dirname}文件目录输入路径: `
+      message: `默认路径为：${chalk.green(
+        zhFilePath
+      )}同级文件，不需更改请直接回车，如需更改请相对于${chalk.green(
+        __dirname
+      )}文件目录输入相对路径: `
     }
   ]).then(async (res) => {
     if (res.path) zhFilePath = path.join(__dirname, res.path)
