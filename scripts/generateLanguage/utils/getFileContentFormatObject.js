@@ -17,9 +17,9 @@ async function getFileContentFormatObject(originPath) {
         console.error('读取文件失败:', err)
         return
       }
+      // .replace(/'/g, '"')
       const match = removeComments(data)
         .match(/\{([\s\S]*)\}/)[0]
-        .replace(/'/g, '"')
         .replace(
           /'((?:[^'\\]|\\.)*)'|"((?:[^"\\]|\\.)*)"/g,
           function (match, singleQuoted, doubleQuoted) {
