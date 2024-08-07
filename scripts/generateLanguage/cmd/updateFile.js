@@ -17,13 +17,10 @@ async function updateAllLanguageFile() {
     languageFiles.forEach(async (file) => {
       let currentTo = file.split('.')[0]
       const target = await getFileContentFormatObject(`${LANGUAGE_DIR}/${file}`)
-      console.log(target, currentTo)
-      console.log('---------------------')
       const lang_object = await deepSyncObj({ origin, target, currentTo })
-      console.log(lang_object)
       const fileContent = `
-const ${currentTo}_local=${JSON.stringify(lang_object)};
-export default ${currentTo}_local`
+        const ${currentTo}_local=${JSON.stringify(lang_object)};
+        export default ${currentTo}_local`
       fs.writeFileSync(`${LANGUAGE_DIR}/${file}`, fileContent)
       console.log(`${chalk.green(`${LANGUAGE_DIR}/${file}文件内容写入成功`)}`)
     })

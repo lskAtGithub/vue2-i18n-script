@@ -76,12 +76,15 @@ async function deepSyncObj({ origin, target, currentTo }) {
       })
     } else {
       if (target[key] === undefined) {
-        const res = await getValue(origin[key], currentTo)
-        try {
-					result[key] = res.data.trans_result[0].dst;
-				} catch {
-          console.log(`${key}翻译出错，拿到的信息为${res.data}`)
-				}
+        const recall = async () => {
+          const res = await getValue(origin[key], currentTo)
+          try {
+            result[key] = res.data.trans_result[0].dst
+          } catch {
+            recall()
+          }
+        }
+        recall()
       }
     }
   }
